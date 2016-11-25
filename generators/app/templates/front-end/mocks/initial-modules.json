@@ -1,0 +1,41 @@
+﻿{
+    "modules": [{
+        "name": "user-management",
+        "type": "business"
+    },{
+        "name": "core-directives",
+        "type": "infrastructure"
+    },{
+        "name": "core-services",
+        "type": "infrastructure"
+    }, {
+        "name": "template",
+        "type": "infrastructure"
+    },{
+      "name": "notice",
+      "type": "business"
+    },{
+        "name": "login",
+        "type": "business"
+    },
+    {
+        "name": "sign-up",
+        "type": "business"
+    },{
+        "name": "security",
+        "type": "infrastructure"
+    },
+    {
+        "name": "formly-app",
+        "type": "infrastructure"
+    },
+    {
+        "name": "angular-data-table",
+        "type": "infrastructure"
+    },
+    {
+        "name": "file-uploader",
+        "type": "infrastructure"
+    }
+    ]
+}

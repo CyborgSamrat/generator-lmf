@@ -1,0 +1,505 @@
+﻿<div class="{{fullScreanClass}}">
+  <link href="apps/business/exam/styles/exam.css" rel="stylesheet" type="text/css"/>
+  <div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12" style="text-align: center">
+        <span><b style="{{bgColor}}"><h3>{{exam.title}}</h3></b></span>
+      </div>
+      <div class="col-md-4 col-sm-4"><b style="{{bgColor}} ">Subject:</b>{{exam.subject}}</div>
+      <div class="col-md-4 col-sm-4"><b style="{{bgColor}}">Duration:</b> {{exam.duration}} Minutes</div>
+      <div class="col-md-4 col-sm-4"><b style="{{bgColor}}">Full Marks:</b> {{exam.numberOfQuestion}}</div>
+      <div ng-if="resultCalculated" id="exam-result" style="text-align: center; color: #0000FF; padding: 10%">
+        <h2><b>Result</b></h2>
+        <h3>Total Answered: {{result.totalAnswered}}</h3>
+        <h3>Not Answered: {{exam.numberOfQuestion- result.totalAnswered}}</h3>
+        <h3>Correct Answer: {{result.correctAnswer}}</h3>
+        <h3>Wrong Answer: {{result.wrongAnswer}}</h3>
+        <h3>Obtained Marks: {{result.correctAnswer}}</h3>
+        <button class="btn btn-link" ng-click="goToAllExams()"><span class="glyphicon glyphicon-arrow-left"></span> Back</button>
+      </div>
+      <div ng-if="examStarted && !examFinished">
+        <br/><br/><br/><br/><br/>
+        <h4>Exam Started!</h4>
+        <exam-progress-bar type="info" max="{{exam.duration*60}}" start="{{examStarted}}"
+                           on-stop="stopProgress()"></exam-progress-bar>
+        <div style="color: red">Please note, if you leave the exam window, answers will be submitted without any notification. </div>
+        <div style="text-align: center">
+          <button class="btn btn-warning" type="button" ng-click="submit()">Submit</button>
+        </div>
+        <br/><br/>
+      </div>
+
+      <!--<div ng-if="!question.optionAFigure" class="col-lg-5 col-md-5 col-sm-5">
+        <br/>
+        <h4>{{question.optionA}}</h4>
+      </div>
+
+      <div ng-if="question.optionAFigure" class="col-lg-10 col-md-10 col-sm-10">
+        <img ng-src="{{baseUrl+question.optionAFigure}}" alt="Question Figure" class="img-responsive" style="max-height: 200px;max-width: 200px">
+      </div>-->
+
+    </div>
+
+    <div style="text-align: center" ng-if="!examStarted && !examFinished">
+      <br/><br/>
+      <button ng-if="ipAllowed && screenStatus.success" class="btn btn-success" ng-click="startExam()">Start Exam</button>
+      <h1 style="color: darkred" ng-if="!ipAllowed">Something is wrong! you can not take this exam. IP not allowed.</h1>
+      <h1 style="color: darkred" ng-if="!screenStatus.success">Something is wrong! you can not take this exam. {{screenStatus.text}}</h1>
+    </div>
+    <div ng-if="examStarted && !examFinished">
+      <div ng-repeat="question in questions" style="margin: 10px; border-color: #0000FF">
+        <hr style="height: 5px;background-color: darkcyan"/>
+        <div class="card">
+          <div class="card-block">
+            <h3 class="card-title"><b>({{$index+1}})</b>{{" "+question.title}}</h3>
+          </div>
+          <img ng-if="question.titleFigure" ng-src="{{baseUrl+question.titleFigure}}" class="img-responsive"
+               style="height: 15%;width: 70%" alt="Question image">
+          <div class="card-block">
+            <div>
+              <div>
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th class="exam-screen-td">
+                      <button ng-click="setAnswer(question, 'a')"
+                              ng-class="question.ca=='a'?'btn btn-primary':'btn btn-info'">
+                        <span ng-if="question.ca=='a'" class="glyphicon glyphicon-ok"></span>
+                        Option A
+                      </button>
+                    </th>
+                    <th class="exam-screen-td">
+                      <button ng-click="setAnswer(question, 'b')"
+                              ng-class="question.ca=='b'?'btn btn-primary':'btn btn-info'">
+                        <span ng-if="question.ca=='b'" class="glyphicon glyphicon-ok"></span>
+                        Option B
+                      </button>
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td class="exam-screen-td">
+                      <div ng-if="question.optionAFigure">
+                        <img ng-src="{{baseUrl+question.optionAFigure}}" alt="{{question.optionA}}"
+                             class="img-responsive option-figure">
+                      </div>
+                      <div ng-if="!question.optionAFigure">
+                        {{question.optionA}}
+                      </div>
+                    </td>
+                    <td class="exam-screen-td">
+                      <div ng-if="question.optionBFigure">
+                        <img ng-src="{{baseUrl+question.optionBFigure}}" alt="{{question.optionB}}"
+                             class="img-responsive option-figure">
+                      </div>
+                      <div ng-if="!question.optionBFigure">
+                        {{question.optionB}}
+                      </div>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div>
+                <table class="table table-responsive">
+                  <thead>
+                  <tr>
+                    <th class="exam-screen-td">
+                      <button ng-click="setAnswer(question, 'c')"
+                              ng-class="question.ca=='c'?'btn btn-primary':'btn btn-info'">
+                        <span ng-if="question.ca=='c'" class="glyphicon glyphicon-ok"></span>
+                        Option C
+                      </button>
+                    </th>
+                    <th class="exam-screen-td">
+                      <button ng-click="setAnswer(question, 'd')"
+                              ng-class="question.ca=='d'?'btn btn-primary':'btn btn-info'">
+                        <span ng-if="question.ca=='d'" class="glyphicon glyphicon-ok"></span>
+                        Option D
+                      </button>
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td class="exam-screen-td">
+                      <div ng-if="question.optionCFigure">
+                        <img ng-src="{{baseUrl+question.optionCFigure}}" alt="{{question.optionC}}"
+                             class="img-responsive option-figure">
+                      </div>
+                      <div ng-if="!question.optionCFigure">
+                        {{question.optionC}}
+                      </div>
+                    </td>
+                    <td class="exam-screen-td">
+                      <div ng-if="question.optionDFigure">
+                        <img ng-src="{{baseUrl+question.optionDFigure}}" alt="{{question.optionD}}"
+                             class="img-responsive option-figure">
+                      </div>
+                      <div ng-if="!question.optionDFigure">
+                        {{question.optionD}}
+                      </div>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <hr style="background-color: cornsilk;height: 10px"/>
+        </div>
+      </div>
+      <div style="text-align: center">
+        <button class="btn btn-warning" type="button" ng-click="submit()">Submit</button>
+        <div id="calc">
+        <button ng-click="showCalc()" id="calcbutton" class="btn btn-success">
+          <span ng-class="showCalculator?'glyphicon glyphicon-triangle-left':'glyphicon glyphicon-th'"></span> Calc</button>
+        <!--
+                <button ng-if="showCalculator" ng-click="showCalc()" id="calcbutton">Hide Calc</button>
+        -->
+        <div ng-show="showCalculator" id="background"><!-- Main background -->
+        <style type="text/css">
+          #background {
+            width:300px;
+            height:400px;
+            background:gray;
+            margin:50px auto;
+            position: fixed;
+            top: 10%;
+            left: 10px;
+
+          }
+
+          #calcbutton {
+            position: fixed;
+            top: 5%;
+            left: 10px;
+          }
+
+          button {
+            border:0;
+            color:#fff;
+          }
+
+          #result {
+            display:block;
+            font-family: sans-serif;
+            width:230px;
+            height:40px;
+            margin:10px auto;
+            text-align: right;
+            border:0;
+            background:#3b3535;
+            color:#fff;
+            padding-top:10px;
+            font-size:20px;
+            margin-left: 50px;
+            outline: none;
+            overflow: hidden;
+            letter-spacing: 4px;
+            position: relative;
+            top:10px;
+          }
+
+          #result:hover {
+
+            cursor: text;
+
+          }
+
+          #first-rows {
+            margin-bottom: 20px;
+            position: relative;
+            top:10px;
+          }
+
+          .rows {
+            width:300px;
+            margin-top:10px;
+          }
+
+          #delete {
+            width:110px;
+            height:50px;
+            margin-left:25px;
+            border-radius:4px;
+          }
+
+          /* Aligning the division and dot button properly */
+          .fall-back {
+            margin-left:3px !important;
+          }
+
+          /* Aligning the addition and equals to button properly */
+          .align {
+            margin-left: 6px !important;
+          }
+
+          /* Button styling */
+          .btn-style {
+            width:50px;
+            height:50px;
+            margin-left:5px;
+            border-radius:4px;
+          }
+
+          .eqn {
+            width:50px;
+            height:50px;
+            margin-left:5px;
+            border-radius:4px;
+          }
+
+          .first-child {
+            margin-left:25px;
+          }
+
+
+          /* Adding background color to the number values */
+          .num-bg {
+            background:#000;
+            color:#fff;
+            font-size:26px;
+            cursor:pointer;
+            outline:none;
+            border-bottom:3px solid #333;
+          }
+
+          .num-bg:active {
+            background:#000;
+            color:#fff;
+            font-size:26px;
+            cursor:pointer;
+            outline:none;
+            box-shadow: inset 5px 5px 5px #555;
+          }
+
+          /*Adding background color to the operator values */
+          .opera-bg {
+            background:#333;
+            color:#fff;
+            font-size:26px;
+            cursor: pointer;
+            outline:none;
+            border-bottom:3px solid #555;
+          }
+
+          .opera-bg:active {
+            background:#333;
+            color:#fff;
+            font-size:26px;
+            cursor: pointer;
+            outline:none;
+            box-shadow: inset 4px 4px 4px #555;
+          }
+
+          /*Adding a background color to the delete button */
+          .del-bg {
+            background:#24b4de;
+            color:#fff;
+            font-size:26px;
+            cursor: pointer;
+            outline:none;
+            border-bottom:3px solid #399cb9;
+          }
+
+          .del-bg:active {
+            background:#24b4de;
+            color:#fff;
+            font-size:26px;
+            cursor: pointer;
+            outline:none;
+            box-shadow: inset 4px 4px 4px #399cb9;
+          }
+
+          /*Adding a background color to the equals to button */
+          #eqn-bg {
+            background:#17a928;
+            color:#fff;
+            font-size:26px;
+            cursor: pointer;
+            outline:none;
+            border-bottom:3px solid #1f7a29;
+          }
+
+          #eqn-bg:active {
+            background:#17a928;
+            color:#fff;
+            font-size:26px;
+            cursor: pointer;
+            outline:none;
+            box-shadow: inset 4px 4px 4px #1f7a29;
+          }
+
+        </style>
+
+        <script type="text/javascript">
+          testCalc();
+          function testCalc() {
+            console.log("testin calck");
+
+            var current,
+                    screen,
+                    output,
+                    limit,
+                    zero,
+                    period,
+                    operator;
+
+            screen = document.getElementById("result");
+
+            var elem = document.querySelectorAll(".num");
+
+            var len = elem.length;
+
+            for(var i = 0; i < len; i++ ) {
+
+              elem[i].addEventListener("click",function() {
+
+                num = this.value;
+
+                output = screen.innerHTML +=num;
+
+                limit = output.length;
+
+                if(limit > 16 ) {
+
+                  alert("Sorry no more input is allowed");
+
+                }
+
+              },false);
+
+            }
+
+            document.querySelector(".zero").addEventListener("click",function() {
+
+              zero = this.value;
+
+              if(screen.innerHTML === "") {
+
+                output = screen.innerHTML = zero;
+              }
+
+              else if(screen.innerHTML === output) {
+
+                output = screen.innerHTML +=zero;
+
+              }
+
+            },false);
+
+            document.querySelector(".period").addEventListener("click",function() {
+
+              period = this.value;
+
+              if(screen.innerHTML === "") {
+
+                output = screen.innerHTML = screen.innerHTML.concat("0.");
+
+              }
+
+              else if(screen.innerHTML === output) {
+
+                screen.innerHTML = screen.innerHTML.concat(".");
+
+              }
+
+            },false);
+
+
+            document.querySelector("#eqn-bg").addEventListener("click",function() {
+
+              if(screen.innerHTML === output) {
+
+                screen.innerHTML = eval(output);
+              }
+
+              else {
+                screen.innerHTML = "";
+              }
+
+            },false);
+
+            document.querySelector("#delete").addEventListener("click",function() {
+
+              screen.innerHTML = "";
+
+            },false);
+
+
+            var elem1 = document.querySelectorAll(".operator");
+
+            var len1 = elem1.length;
+
+            for(var i = 0; i < len1; i++ ) {
+
+              elem1[i].addEventListener("click",function() {
+
+                operator = this.value;
+
+                if(screen.innerHTML === "") {
+
+                  screen.innerHTML = screen.innerHTML.concat("");
+
+                }
+
+                else if(output) {
+
+                  screen.innerHTML = output.concat(operator);
+
+                }
+
+              },false);
+
+            }
+          }
+        </script>
+
+        <div>
+          <div id="result"></div>
+          <div id="main">
+            <div id="first-rows">
+              <button class="del-bg" id="delete">Del</button>
+              <button value="%" class="btn-style operator opera-bg fall-back">%</button>
+              <button value="+" class="btn-style opera-bg value align operator">+</button>
+            </div>
+
+            <div class="rows">
+              <button value="7" class="btn-style num-bg num first-child">7</button>
+              <button value="8" class="btn-style num-bg num">8</button>
+              <button value="9" class="btn-style num-bg num">9</button>
+              <button value="-" class="btn-style opera-bg operator">-</button>
+            </div>
+
+            <div class="rows">
+              <button value="4" class="btn-style num-bg num first-child">4</button>
+              <button value="5" class="btn-style num-bg num">5</button>
+              <button value="6" class="btn-style num-bg num">6</button>
+              <button value="*" class="btn-style opera-bg operator">x</button>
+            </div>
+
+            <div class="rows">
+              <button value="1" class="btn-style num-bg num first-child">1</button>
+              <button value="2" class="btn-style num-bg num">2</button>
+              <button value="3" class="btn-style num-bg num">3</button>
+              <button value="/" class="btn-style opera-bg operator">/</button>
+            </div>
+
+            <div class="rows">
+              <button value="0" class="num-bg zero" id="delete">0</button>
+              <button value="." class="btn-style num-bg period fall-back">.</button>
+              <button value="=" id="eqn-bg" class="eqn align">=</button>
+            </div>
+
+          </div>
+
+        </div>
+        </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

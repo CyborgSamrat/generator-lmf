@@ -1,0 +1,30 @@
+﻿<div class="">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Result</h4>
+    <button class="btn btn-warning close" type="button" ng-click="cancel()">
+      <span class="glyphicon glyphicon-remove"></span>
+    </button>
+  </div>
+  <div  class="modal-body" id="modal-body">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12" style="text-align: center">
+      <span><b style="{{bgColor}}"><h3>{{exam.title}}</h3></b></span>
+    </div>
+    <div class="col-md-4 col-sm-4"><b style="{{bgColor}}">Difficulty Level:</b> {{exam.difficultyLevel}}</div>
+    <div class="col-md-3 col-sm-3"><b style="{{bgColor}}">Full Marks:</b> {{exam.numberOfQuestion}}</div>
+    <div class="col-md-5 col-sm-5"><b style="{{bgColor}}">Subject:</b>{{subject.title}}</div>
+  </div>
+    <div style="text-align: center; color: #0000FF; padding: 10%">
+      <h2><b>Result</b></h2>
+      <h3>Total Questions: {{answers.questions.length}}</h3>
+      <h3>Answered: {{answers.totalAnswered}}</h3>
+      <h3>Correct: {{answers.totalCorrect}}</h3>
+      <h3>Wrong: {{answers.totalWrong}}</h3>
+    </div>
+
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Done</button>
+  </div>
+</div>

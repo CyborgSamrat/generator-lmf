@@ -1,0 +1,100 @@
+﻿{
+  "websiteTitle": "Online Examination System",
+  "websiteQuotation": "",
+  "topbarRight":[
+    {
+      "title": "Logout",
+      "state":"logout",
+      "icon":"glyphicon glyphicon-log-out"
+    }
+  ],
+  "topbarLeft":[
+    {
+      "title": "Home",
+      "state": "home",
+      "icon": "glyphicon glyphicon-home"
+    },
+    {
+      "title": "About Us",
+      "state":"about-us",
+      "icon":"glyphicon glyphicon-info-sign"
+    },
+    {
+      "title": "Notice Board",
+      "state":"notice-board",
+      "icon":"glyphicon glyphicon-inbox"
+    }
+  ],
+  "leftNavbar": [
+    {
+      "title": "Question",
+      "menus": [
+        {
+          "title": "All questions",
+          "state": "all-questions",
+          "icon":"glyphicon glyphicon-list-alt"
+        },
+        {
+          "title": "Create question",
+          "state": "create-question",
+          "icon":"glyphicon glyphicon-plus-sign"
+        },
+        {
+          "title": "Import question",
+          "state": "import-question",
+          "icon":"glyphicon glyphicon-upload"
+        }
+      ]
+    },
+    {
+      "title": "Subject",
+      "menus": [
+        {
+          "title": "All subjects",
+          "state": "all-subjects",
+          "icon":"glyphicon glyphicon-list-alt"
+        },
+        {
+          "title": "Create subject",
+          "state": "create-subject",
+          "icon":"glyphicon glyphicon-plus-sign"
+        }
+      ]
+    },
+    {
+      "title": "Examination",
+      "menus": [
+        {
+          "title": "All Exam",
+          "state": "all-exams",
+          "icon":"glyphicon glyphicon-list-alt"
+        },
+        {
+          "title": "Create Exam",
+          "state":"create-exam",
+          "icon":"glyphicon glyphicon-plus-sign"
+        },
+        {
+          "title": "Applications",
+          "state":"applications",
+          "icon":"glyphicon glyphicon-inbox"
+        }
+      ]
+    },
+    {
+      "title": "Notice",
+      "menus": [
+        {
+          "title": "All notices",
+          "state": "all-notices",
+          "icon":"glyphicon glyphicon-list-alt"
+        },
+        {
+          "title": "Create notice",
+          "state": "create-notice",
+          "icon":"glyphicon glyphicon-plus-sign"
+        }
+      ]
+    }
+  ]
+}

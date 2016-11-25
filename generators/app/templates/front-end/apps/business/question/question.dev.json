@@ -1,0 +1,73 @@
+﻿{
+	"paths": {
+		"question": "apps/business/question/question.config",
+		"questionsController": "apps/business/question/controllers/all-questions.controller",
+		"createQuestionController":"apps/business/question/controllers/create-question.controller",
+		"editQuestionModalController": "apps/business/question/controllers/editQuestionModal.controller",
+    "questionService": "apps/business/question/services/question.service",
+    "deleteQuestionController": "apps/business/question/controllers/delete-question-confirmation.controller",
+    "viewQuestionController":"apps/business/question/controllers/view-question.controller",
+    "importQuestionController":"apps/business/question/controllers/import-question.controller"
+	},
+
+
+	"dependencies": {
+		"questionsController": {
+			"deps": ["question","editQuestionModalController","questionService", "deleteQuestionController", "viewQuestionController"]
+		},
+		"createQuestionController":{
+		  "deps": ["question"]
+		},
+		"editQuestionModalController": {
+		  "deps": ["question", "questionService"]
+		},
+    "questionService": {
+      "deps": ["question"]
+    },
+    "deleteQuestionController": {
+      "deps": ["question", "questionService"]
+    },
+    "viewQuestionController": {
+      "deps": ["question", "questionService"]
+    },
+    "importQuestionController":{
+      "deps": ["question"]
+    }
+
+	},
+
+
+	"routes": {
+		"moduleName": "question",
+		"states": [
+		  {
+			"name": "all-questions",
+      		"url": "/all-questions",
+			"templateUrl": "apps/business/question/views/all-questions.view.html",
+			"controller": "questionsController",
+			"data": {
+        "roles": ["admin","examiner", "coordinator"]
+			}
+		},
+		  {
+			"name": "create-question",
+			"url": "/create-question",
+			"templateUrl": "apps/business/question/views/create-question.view.html",
+			"controller": "createQuestionController",
+			"data": {
+        "roles": ["admin","examiner", "coordinator"]
+			}
+		  },
+      {
+        "name": "import-question",
+        "url": "/import-question",
+        "templateUrl": "apps/business/question/views/import-question.view.html",
+        "controller": "importQuestionController",
+        "data": {
+          "roles": ["admin","examiner", "coordinator"]
+        }
+      }
+		]
+	}
+
+}

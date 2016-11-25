@@ -1,0 +1,306 @@
+'use strict';
+//Require dependencies
+var yeoman = require('yeoman-generator');
+var chalk = require('chalk');
+var yosay = require('yosay');
+
+
+module.exports = yeoman.Base.extend({
+//Configurations will be loaded here.
+  prompting: function() {
+    var done = this.async();
+    this.prompt({
+      type: 'input',
+      name: 'name',
+      message: 'What is your project name?',
+      //Defaults to the project's folder name if the input is skipped
+      default: this.appname
+    }, function(answers) {
+      this.props = answers
+      this.log(answers.name);
+      done();
+    }.bind(this));
+  },
+  writing: {
+    config: function () {
+      this.fs.copyTpl(
+        this.templatePath('back-end/package.json'),
+        this.destinationPath('back-end/package.json'), {
+          name: this.props.name
+        }
+      );
+      this.fs.copyTpl(
+        this.templatePath('front-end/bower.json'),
+        this.destinationPath('front-end/bower.json'), {
+          name: this.props.name
+        }
+      );
+    },
+    app: function() {
+      var thisRef = this;
+
+      //backend files
+     function generateBackendSkeleton(){
+       var baseFiles = ["index.js", "routes.js", "config.js"]
+       baseFiles.forEach(function(item){
+         thisRef.fs.copyTpl(
+           thisRef.templatePath('back-end/' + item ),
+           thisRef.destinationPath('back-end/' + item), {
+             name: thisRef.props.name
+           }
+         );
+       })
+       var controllers = {
+         auth: ["authenticate.js", "changePassword.js","createAccount.js", "updateProfile.js", "validateToken.js"],
+         connection: ["connect.js","getConnection.js"],
+         crud: ["deleteById.js", "getById.js", "getMany.js", "index.js", "insert.js", "update.js", "deleteMany.js"]
+       };
+       for(var key in controllers){
+         controllers[key].forEach(function (item) {
+           thisRef.fs.copyTpl(
+             thisRef.templatePath('back-end/controllers/' + key + "/" + item ),
+             thisRef.destinationPath('back-end/controllers/' + key + "/" + item), {
+               name: thisRef.props.name
+             }
+           );
+         });
+       };
+
+       var middlewares = ["crudAuthorize.js"];
+       middlewares.forEach(function (item) {
+         thisRef.fs.copyTpl(
+           thisRef.templatePath('back-end/middlewares/' + item ),
+           thisRef.destinationPath('back-end/middlewares/' + item), {
+             name: thisRef.props.name
+           }
+         );
+       });
+
+       var models = ["user.js", "index.js", "notice.js", "connection.js"]
+       models.forEach(function (item) {
+         thisRef.fs.copyTpl(
+           thisRef.templatePath('back-end/models/' + item ),
+           thisRef.destinationPath('back-end/models/' + item), {
+             name: thisRef.props.name
+           }
+         );
+       });
+
+       var services = ["tokenDecoder.js"]
+       services.forEach(function (item) {
+         thisRef.fs.copyTpl(
+           thisRef.templatePath('back-end/services/' + item ),
+           thisRef.destinationPath('back-end/services/' + item), {
+             name: thisRef.props.name
+           }
+         );
+       });
+     }
+      generateBackendSkeleton();
+
+      function generateFrontendSkeleton(){
+        var baseFiles = ["index.html", "require-main.js"];
+        baseFiles.forEach(function(item){
+          thisRef.fs.copyTpl(
+            thisRef.templatePath('front-end/' + item ),
+            thisRef.destinationPath('front-end/' + item), {
+              name: thisRef.props.name
+            }
+          );
+        })
+        var externalfiles = ["requirejs/require.js"];
+        externalfiles.forEach(function(item){
+          thisRef.fs.copyTpl(
+            thisRef.templatePath('front-end/external-files/' + item ),
+            thisRef.destinationPath('front-end/external-files/' + item), {
+              name: thisRef.props.name
+            }
+          );
+        })
+
+        var styles = ["bootstrap-theme.min.css", "preloader.css"];
+        styles.forEach(function(item){
+          thisRef.fs.copyTpl(
+            thisRef.templatePath('front-end/styles/' + item ),
+            thisRef.destinationPath('front-end/styles/' + item)
+          );
+        })
+
+        var mocks = {
+          "base": ["initial-modules.json", "template-config.admin.json", "template-config.visitor.json"]
+        }
+        for(var key in mocks){
+          mocks[key].forEach(function(item){
+            thisRef.fs.copyTpl(
+              thisRef.templatePath('front-end/mocks/'+ (key=="base"? "":(key + "/")) + item ),
+              thisRef.destinationPath('front-end/mocks/'+(key=="base"? "":(key + "/")) + item ), {
+                name: thisRef.props.name
+              }
+            );
+          })
+        }
+
+        var directives = ["app-loader.js"];
+        directives.forEach(function(item){
+          thisRef.fs.copyTpl(
+            thisRef.templatePath('front-end/directives/' + item ),
+            thisRef.destinationPath('front-end/directives/' + item)
+          );
+        })
+
+        var mainApp = {
+          controllers:["indexController.js"],
+          services: ["env.service.js"],
+          styles: ["main.css"],
+          base: ["mainApp.config.js"]
+        }
+        for(var key in mainApp){
+          mainApp[key].forEach(function(item){
+            thisRef.fs.copyTpl(
+              thisRef.templatePath('front-end/apps/mainApp/'+(key=="base"? "":(key + "/")) + item ),
+              thisRef.destinationPath('front-end/apps/mainApp/'+(key=="base"? "":(key + "/")) + item )
+            );
+          })
+        }
+
+        var others = ["access-denied.view.html", "not-found.view.html"];
+        others.forEach(function(item){
+          thisRef.fs.copyTpl(
+            thisRef.templatePath('front-end/apps/others/' + item ),
+            thisRef.destinationPath('front-end/apps/others/' + item)
+          );
+        });
+
+        var apps = {
+          business: {
+            "login": {
+              controllers: ["login.controller.js", "logout.controller.js"],
+              styles: ["login.css"],
+              views: ["login.view.html", "logout.view.html"],
+              base:["login.config.js", "login.dev.json"]
+            },
+            "user-management":{
+              controllers: ["all-users.controller.js", "create-user.controller.js",
+                "delete-user-confirmation.controller.js", "edit-user-modal.controller.js", "view-user.controller.js" ],
+              views: ["all-users.view.html", "create-user.view.html",
+                "delete-user-confirmation-modal.view.html", "edit-user-modal.view.html", "view-user-modal.view.html" ],
+              base:["user-management.config.js", "user-management.dev.json"],
+              services: ["user.service.js"]
+            },
+            "sign-up": {
+              controllers: ["sign-up.controller.js", "profile.controller.js"],
+              styles: ["sign-up.css"],
+              views: ["sign-up.view.html", "profile.view.html"],
+              base:["sign-up.config.js", "sign-up.dev.json"]
+            },
+            "notice":{
+              controllers: ["all-notices.controller.js", "create-notice.controller.js",
+                "delete-notice-confirmation.controller.js", "edit-notice-modal.controller.js",
+                "view-notice-modal.controller.js", "notice-board.controller.js" ],
+              styles: ["notice.css"],
+              views: ["all-notices.view.html", "create-notice.view.html",
+                "delete-notice-confirmation-modal.view.html", "edit-notice-modal.view.html",
+                "view-notice-modal.view.html", "notice-board.view.html" ],
+              base:["notice.config.js", "notice.dev.json"],
+              services: ["notice.service.js"]
+            }
+          },
+          infrastructure: {
+            "template": {
+              base: ["template.config.js", "template.dev.json"],
+              controllers: ["template.controller.js"],
+              services: ["template-service.service.js"],
+              styles: ["template.css"],
+              views: ["template.view.html"]
+            },
+            "security":{
+              base: ["security.config.js", "security.dev.json"],
+              factories: ["authorizer.factory.js", "identifier.factory.js"]
+            },
+            "formly-app": {
+              base: ["formly-app.config.js", "formly-app.dev.json"],
+              directives: ["datetimepicker.js"]
+            },
+            "file-uploader": {
+              base: ["file-uploader.dev.json", "file-uploader.config.js"]
+            },
+            "core-services": {
+              base: ["core-services.dev.json", "core-services.config.js", "data-manupulator.service.js"]
+            },
+            "core-directives": {
+              base: ["core-directives.dev.json", "core-directives.config.js", "app-loader.directive.js"]
+            },
+            "angular-data-table": {
+              base: ["angular-data-table.dev.json", "angular-data-table.config.js"]
+            }
+          },
+          public: {
+            landing: {
+              controllers: ["landing.controller.js"],
+              views:["landing.view.html"]
+            }
+          }
+        }
+
+        for(var key1 in apps){
+          for(var key2 in apps[key1]){
+            for(var key3 in apps[key1][key2]){
+              apps[key1][key2][key3].forEach(function(item){
+                thisRef.fs.copyTpl(
+                  thisRef.templatePath('front-end/apps/'+ key1 + "/" + key2 + "/" + (key3=="base"?"":key3) + "/" + item ),
+                  thisRef.destinationPath('front-end/apps/'+ key1 + "/" + key2 + "/" + (key3=="base"?"":key3) + "/" + item)
+                );
+              });
+            }
+          }
+        }
+
+
+      }
+      generateFrontendSkeleton();
+
+
+
+
+      //Frontend files
+
+      /* /////Routes
+       this.fs.copy(
+       this.templatePath('_routes/_all.js'),
+       this.destinationPath('routes/all.js'));
+
+
+       // Model
+       this.fs.copy(
+       this.templatePath('_model/_todo.js'),
+       this.destinationPath('model/todo.js'));
+
+       // Views
+       this.fs.copyTpl(
+       this.templatePath('_views/_index.ejs'),
+       this.destinationPath('/views/index.ejs'), {
+       name: this.props.name
+       }
+       );
+
+       // Public/
+       this.fs.copy(
+       this.templatePath('_public/_css/_app.css'),
+       this.destinationPath('public/css/app.css')
+       );
+       this.fs.copy(
+       this.templatePath('_public/_js/_app.js'),
+       this.destinationPath('public/js/app.js')
+       );*/
+    }
+  },
+  install: function() {
+    console.log("installing...");
+    this.installDependencies();
+  },
+  end: function(){
+    console.log("ended");
+  }
+
+//Install Dependencies
+});

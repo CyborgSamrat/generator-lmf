@@ -1,0 +1,27 @@
+{
+  "name": "<%= name %>",
+  "version": "1.0.0",
+  "description": "Backend for online exam system application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Samrat Shamim",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "*",
+    "cors": "^2.8.1",
+    "express": "*",
+    "jsonwebtoken": "^7.1.9",
+    "lodash": "*",
+    "method-override": "*",
+    "mongoose": "*",
+    "morgan": "^1.7.0",
+    "multer": "^1.2.0",
+    "node-fs": "^0.1.7",
+    "node-restful": "*",
+    "nodemon": "^1.11.0",
+    "promise": "^7.1.1"
+  }
+}
