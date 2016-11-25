@@ -16,6 +16,21 @@ Then generate your new project:
 yo lmf
 ```
 
+To add modules to your new:
+
+```bash
+yo lmf
+```
+
+## Features
+
+ * Built-in token based authentication
+ * Role based authorization 
+ * Generic crud operation implemented
+ * Exciting built-in modules
+ * User management for admin
+ * Maintain profile for any user
+
 ## Getting To Know Yeoman
 
  * Yeoman has a heart of gold.
