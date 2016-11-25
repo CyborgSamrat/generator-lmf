@@ -16,7 +16,7 @@ Then generate your new project:
 yo lmf
 ```
 
-To add modules to your new:
+To add modules to your project:
 
 ```bash
 yo lmf:module
