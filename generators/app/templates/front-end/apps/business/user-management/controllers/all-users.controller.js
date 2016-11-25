@@ -4,20 +4,20 @@
         ['$scope', '$http',"$uibModal",'dataManupulator','userService',
           function (scope, http,$uibModal, dataManupulator, userService) {
           scope.totalItems=0;
-          scope.roles = [
+            var roles = [
               {
-                  name: "Examinee",
-                  value:"examinee"
+                name: "Manager",
+                value:"manager"
               },
               {
-                  name: "Examiner",
-                  value:"examiner"
+                name: "Customer",
+                value:"customer"
               },
               {
-                  name: "Coordinator",
-                  value:"coordinator"
+                name: "Employee",
+                value:"employee"
               }
-          ];
+            ];
             scope.pageSize = 10;
             scope.selectedUsers = [];
             scope.$watchCollection("selectedUsers", function(){

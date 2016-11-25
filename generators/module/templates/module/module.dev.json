@@ -1,0 +1,69 @@
+﻿{
+	"paths": {
+		"<%= lname %>": "apps/<%= type %>/<%= lname %>/<%= lname %>.config",
+		"<%= lname %>sController": "apps/<%= type %>/<%= lname %>/controllers/all-<%= lname %>s.controller",
+    	"<%= lname %>BoardController": "apps/<%= type %>/<%= lname %>/controllers/<%= lname %>-board.controller",
+		"create<%= uname %>Controller":"apps/<%= type %>/<%= lname %>/controllers/create-<%= lname %>.controller",
+		"<%= lname %>Service": "apps/<%= type %>/<%= lname %>/services/<%= lname %>.service",
+		"delete<%= uname %>Controller": "apps/<%= type %>/<%= lname %>/controllers/delete-<%= lname %>-confirmation.controller",
+		"edit<%= uname %>Controller": "apps/<%= type %>/<%= lname %>/controllers/edit-<%= lname %>-modal.controller",
+		"view<%= uname %>Controller": "apps/<%= type %>/<%= lname %>/controllers/view-<%= lname %>-modal.controller"
+	},
+
+
+	"dependencies": {
+		"<%= lname %>sController": {
+			"deps": ["<%= lname %>", "<%= lname %>Service", "delete<%= uname %>Controller", "edit<%= uname %>Controller"]
+		},
+    "<%= lname %>BoardController": {
+      "deps": ["<%= lname %>", "<%= lname %>Service", "view<%= uname %>Controller"]
+    },
+		"create<%= uname %>Controller":{
+		  "deps": ["<%= lname %>"]
+		},
+		"<%= lname %>Service": {
+		  "deps": ["<%= lname %>"]
+		},
+		"delete<%= uname %>Controller": {
+		  "deps": ["<%= lname %>", "<%= lname %>Service"]
+		},
+		"edit<%= uname %>Controller": {
+		  "deps": ["<%= lname %>", "<%= lname %>Service"]
+		}
+
+	},
+
+
+	"routes": {
+		"<%= lname %>Name": "<%= lname %>",
+		"states": [
+		  {
+			"name": "all-<%= lname %>s",
+      		"url": "/all-<%= lname %>s",
+			"templateUrl": "apps/<%= type %>/<%= lname %>/views/all-<%= lname %>s.view.html",
+			"controller": "<%= lname %>sController",
+			"data": {
+        "roles": ["admin", "coordinator"]
+			}
+		},
+		  {
+			"name": "create-<%= lname %>",
+			"url": "/create-<%= lname %>",
+			"templateUrl": "apps/<%= type %>/<%= lname %>/views/create-<%= lname %>.view.html",
+			"controller": "create<%= uname %>Controller",
+			"data": {
+        "roles": ["admin", "coordinator"]
+			}
+		  },{
+        "name": "<%= lname %>-board",
+        "url": "/<%= lname %>-board",
+        "templateUrl": "apps/<%= type %>/<%= lname %>/views/<%= lname %>-board.view.html",
+        "controller": "<%= lname %>BoardController",
+        "data": {
+          "roles": ["admin", "coordinator", "examiner", "examinee"]
+        }
+      }
+		]
+	}
+
+}

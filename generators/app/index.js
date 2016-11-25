@@ -300,11 +300,7 @@ module.exports = yeoman.Base.extend({
     }
   },
   install: function() {
-    console.log("installing...");
-    this.installDependencies();
-  },
-  end: function(){
-    console.log("ended");
+    console.log("Run bower install in front-end and npm install in back-end forlder.")
   }
 
 //Install Dependencies
