@@ -9,20 +9,35 @@ module.exports = yeoman.Base.extend({
 //Configurations will be loaded here.
   prompting: function() {
     var done = this.async();
-    this.prompt({
-      type: 'input',
-      name: 'name',
-      message: 'What is your project name?',
-      //Defaults to the project's folder name if the input is skipped
-      default: this.appname
-    }, function(answers) {
-      this.props = answers
-      this.log(answers.name);
+    var prompts = [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is your project name?',
+        //Defaults to the project's folder name if the input is skipped
+        default: this.appname
+      },
+      {
+        type: 'input',
+        name: 'roles',
+        message: 'Enter roles separated by comma',
+        default: "admin"
+      }
+    ]
+    this.prompt(prompts, function(answers) {
+      this.props = answers;
       done();
     }.bind(this));
   },
   writing: {
     config: function () {
+      var roles = this.props.roles;
+      roles = roles.split(',');
+      var rolesJSON = {
+        roles: roles
+      };
+
+      var nodefs = require('fs');
       this.fs.copyTpl(
         this.templatePath('back-end/package.json'),
         this.destinationPath('back-end/package.json'), {
@@ -31,10 +46,36 @@ module.exports = yeoman.Base.extend({
       );
       this.fs.copyTpl(
         this.templatePath('front-end/bower.json'),
-        this.destinationPath('front-end/bower.json'), {
+        this.destinationPath('bower.json'), {
           name: this.props.name
         }
       );
+      this.fs.copyTpl(
+        this.templatePath('.bowerrc'),
+        this.destinationPath('.bowerrc')
+      );
+      var dir = 'back-end';
+      if (!nodefs.existsSync(dir)){
+        nodefs.mkdirSync(dir);
+      }
+      dir = 'back-end/configs';
+      if (!nodefs.existsSync(dir)){
+        nodefs.mkdirSync(dir);
+      }
+      nodefs.writeFile('back-end/configs/roles.json',JSON.stringify(rolesJSON),function(err){
+        if(err) throw err;
+      });
+      dir = 'front-end';
+      if (!nodefs.existsSync(dir)){
+        nodefs.mkdirSync(dir);
+      }
+      dir = 'front-end/mocks';
+      if (!nodefs.existsSync(dir)){
+        nodefs.mkdirSync(dir);
+      }
+      nodefs.writeFile('front-end/mocks/roles.json',JSON.stringify(rolesJSON),function(err){
+        if(err) throw err;
+      })
     },
     app: function() {
       var thisRef = this;
@@ -129,6 +170,16 @@ module.exports = yeoman.Base.extend({
         var mocks = {
           "base": ["initial-modules.json", "template-config.admin.json", "template-config.visitor.json"]
         }
+        var roles = thisRef.props.roles;
+        roles = roles.split(',');
+        roles.forEach(function (role) {
+          thisRef.fs.copyTpl(
+            thisRef.templatePath('front-end/mocks/template-config.user.json'),
+            thisRef.destinationPath('front-end/mocks/template-config.'+ role +'.json'), {
+              name: thisRef.props.name
+            }
+          );
+        });
         for(var key in mocks){
           mocks[key].forEach(function(item){
             thisRef.fs.copyTpl(
@@ -264,43 +315,10 @@ module.exports = yeoman.Base.extend({
       }
       generateFrontendSkeleton();
 
-
-
-
-      //Frontend files
-
-      /* /////Routes
-       this.fs.copy(
-       this.templatePath('_routes/_all.js'),
-       this.destinationPath('routes/all.js'));
-
-
-       // Model
-       this.fs.copy(
-       this.templatePath('_model/_todo.js'),
-       this.destinationPath('model/todo.js'));
-
-       // Views
-       this.fs.copyTpl(
-       this.templatePath('_views/_index.ejs'),
-       this.destinationPath('/views/index.ejs'), {
-       name: this.props.name
-       }
-       );
-
-       // Public/
-       this.fs.copy(
-       this.templatePath('_public/_css/_app.css'),
-       this.destinationPath('public/css/app.css')
-       );
-       this.fs.copy(
-       this.templatePath('_public/_js/_app.js'),
-       this.destinationPath('public/js/app.js')
-       );*/
     }
   },
   install: function() {
-    console.log("Run bower install in front-end and npm install in back-end forlder.")
+    this.bowerInstall();
   }
 
 //Install Dependencies

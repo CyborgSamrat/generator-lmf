@@ -29,20 +29,18 @@
           };
 
 
-              var roles = [
-                {
-                  name: "Manager",
-                  value:"manager"
-                },
-                {
-                  name: "Customer",
-                  value:"customer"
-                },
-                {
-                  name: "Employee",
-                  value:"employee"
-                }
-              ];
+              var roles = [];
+              http.get("mocks/roles.json").then(
+                function(data){
+                  var r = data.data.roles;
+                  r.forEach(function(role){
+                    var r = {
+                      name: role.charAt(0).toLowerCase() + role.slice(1),
+                      value: role
+                    }
+                    roles.push(r);
+                  });
+                });
 
         scope.userSchema = [
           {

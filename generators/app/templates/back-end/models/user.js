@@ -19,7 +19,7 @@ var UserSchema = new mongoose.Schema({
     },
     roles:{
         type: Array,
-        default:['examinee']
+        default:['user']
     },
     profilePicture:{
       type: String

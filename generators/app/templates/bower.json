@@ -1,0 +1,41 @@
+{
+  "name": "<%= name %>",
+  "authors": [
+    "CyborgSamrat <samratsamimk@yahoo.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "index.html",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs-plugins": "^1.0.3",
+    "angular": "^1.5.8",
+    "angular-aria": "^1.5.8",
+    "angular-ui-router": "^0.3.1",
+    "angular-animate": "^1.5.8",
+    "angular-bootstrap": "^2.0.1",
+    "oclazyload": "^1.0.9",
+    "angular-route": "^1.5.8",
+    "font-awesome": "fontawesome#^4.6.3",
+    "bootstrap": "^3.3.7",
+    "angular-formly": "^8.4.0",
+    "angular-formly-templates-bootstrap": "^6.3.2",
+    "api-check": "^7.5.5",
+    "angular-data-table": "^0.7.0",
+    "tr-ng-grid": "^3.1.7",
+    "angular-file-upload": "^2.3.4",
+    "angular-password": "^1.0.3",
+    "ngstorage": "^0.3.11",
+    "angular-modal": "^0.5.0",
+    "ngToast": "ngtoast#^2.0.0",
+    "angular-sanitize": "^1.5.8",
+    "angular-toastr": "^2.1.1"
+  }
+}

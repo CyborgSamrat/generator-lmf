@@ -1,0 +1,29 @@
+﻿{
+  "websiteTitle": "<%= name %>",
+  "websiteQuotation": "",
+  "topbarRight":[
+    {
+      "title": "Logout",
+      "state":"logout",
+      "icon":"glyphicon glyphicon-log-out"
+    }
+  ],
+  "topbarLeft":[
+    {
+      "title": "Home",
+      "state": "home",
+      "icon": "glyphicon glyphicon-home"
+    },
+    {
+      "title": "About Us",
+      "state":"about-us",
+      "icon":"glyphicon glyphicon-info-sign"
+    },
+    {
+      "title": "Notice Board",
+      "state":"notice-board",
+      "icon":"glyphicon glyphicon-inbox"
+    }
+  ],
+  "leftNavbar": []
+}
