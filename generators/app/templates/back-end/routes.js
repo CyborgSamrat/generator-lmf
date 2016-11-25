@@ -9,7 +9,7 @@ module.exports = {
     '/getConnection': require('./controllers/connection/getConnection'),
     '/createAccount': require('./controllers/auth/createAccount'),
     '/authenticate': require('./controllers/auth/authenticate'),
-    '/upload': require('./controllers/auth/upload'),
+    '/upload': require('./controllers/crud/upload'),
     '/validateToken': require("./controllers/auth/validateToken"),
     '/changePassword': require("./controllers/auth/changePassword"),
     '/updateProfile': require("./controllers/auth/updateProfile")

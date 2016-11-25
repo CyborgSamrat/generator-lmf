@@ -53,7 +53,7 @@ module.exports = yeoman.Base.extend({
        var controllers = {
          auth: ["authenticate.js", "changePassword.js","createAccount.js", "updateProfile.js", "validateToken.js"],
          connection: ["connect.js","getConnection.js"],
-         crud: ["deleteById.js", "getById.js", "getMany.js", "index.js", "insert.js", "update.js", "deleteMany.js"]
+         crud: ["deleteById.js", "getById.js", "getMany.js", "index.js", "insert.js", "update.js", "deleteMany.js", "upload.js"]
        };
        for(var key in controllers){
          controllers[key].forEach(function (item) {
@@ -238,6 +238,11 @@ module.exports = yeoman.Base.extend({
             landing: {
               controllers: ["landing.controller.js"],
               views:["landing.view.html"]
+            },
+            "home": {
+              controllers: ["home.controller.js", "about-us.controller.js"],
+              views: ["home.view.html", "about-us.view.html"],
+              base:["home.config.js", "home.dev.json"]
             }
           }
         }
