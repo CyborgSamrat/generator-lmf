@@ -19,7 +19,7 @@ yo lmf
 To add modules to your new:
 
 ```bash
-yo lmf
+yo lmf:module
 ```
 
 ## Features
