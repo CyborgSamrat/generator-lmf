@@ -43,7 +43,7 @@
 			"templateUrl": "apps/<%= type %>/<%= lname %>/views/all-<%= lname %>s.view.html",
 			"controller": "<%= lname %>sController",
 			"data": {
-        "roles": ["admin", "coordinator"]
+        "roles": <%= canRead %>
 			}
 		},
 		  {
@@ -52,16 +52,9 @@
 			"templateUrl": "apps/<%= type %>/<%= lname %>/views/create-<%= lname %>.view.html",
 			"controller": "create<%= uname %>Controller",
 			"data": {
-        "roles": <%= canRead %>
+        "roles": <%= canModify %>
 			}
-		  },{
-        "name": "<%= lname %>-board",
-        "url": "/<%= lname %>-board",
-        "templateUrl": "apps/<%= type %>/<%= lname %>/views/<%= lname %>-board.view.html",
-        "controller": "<%= lname %>BoardController",
-        "data": {
-          "roles": <%= canModify %>
-        }
+		  }
       }
 		]
 	}
