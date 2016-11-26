@@ -15,7 +15,24 @@ Then generate your new project:
 ```bash
 yo lmf
 ```
+Run your project:
 
+Run npm install in back-end folder
+```bash
+npm install
+```
+
+Run node server in back-end folder
+```bash
+node index
+```
+
+Run http-server in front-end folder
+```bash
+http-server
+```
+
+```
 To add modules to your project:
 
 ```bash

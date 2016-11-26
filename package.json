@@ -1,6 +1,6 @@
 {
   "name": "generator-lmf",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "A MEAN web application framework. Provides built in role based authentication and customizable management modules.",
   "homepage": "",
   "author": {
@@ -46,9 +46,5 @@
     }
   },
   "repository": "CyborgSamrat/generator-lmf",
-  "scripts": {
-    "prepublish": "gulp prepublish",
-    "test": "gulp"
-  },
   "license": "Apache-2.0"
 }
