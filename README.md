@@ -32,8 +32,7 @@ Run http-server in front-end folder
 http-server
 ```
 
-To add new modules to your project:
-
+## add new modules
 ```bash
 yo lmf:module
 ```
