@@ -1,4 +1,4 @@
-# generator-lmf [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
+# generator-lmf 
 > A MEAN web application framework. Provides built in role based authentication and customizable management modules.
 
 ## Installation
@@ -15,9 +15,24 @@ Then generate your new project:
 ```bash
 yo lmf
 ```
+## Run
 
-To add modules to your project:
+Run npm install in back-end folder
+```bash
+npm install
+```
 
+Run node server in back-end folder
+```bash
+node index
+```
+
+Run http-server in front-end folder
+```bash
+http-server
+```
+
+## add new modules
 ```bash
 yo lmf:module
 ```

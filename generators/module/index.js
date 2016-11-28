@@ -137,8 +137,8 @@ var nodefs = require('fs');
          uname: name.charAt(0).toUpperCase() + name.slice(1),
          lname:name.charAt(0).toLowerCase() + name.slice(1),
          type: type,
-         canModify: JSON.stringify(permissions.modify),
-         canRead: JSON.stringify(permissions.read)
+         canModify: JSON.stringify(permissions.modify.push('admin')),
+         canRead: JSON.stringify(permissions.read.push('admin'))
        }
      );
      });

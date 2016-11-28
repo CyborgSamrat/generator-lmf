@@ -177,7 +177,7 @@ module.exports = yeoman.Base.extend({
         })
 
         var mocks = {
-          "base": ["initial-modules.json", "template-config.admin.json", "template-config.visitor.json"]
+          "base": ["initial-modules.json", "template-config.admin.json", "template-config.visitor.json", "template-config.user.json"]
         }
         var roles = thisRef.props.roles;
         roles = roles.split(',');
