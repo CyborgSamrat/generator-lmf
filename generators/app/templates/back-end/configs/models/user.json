@@ -1,6 +1,6 @@
 {
   "permissions": {
     "modify": ["admin"],
-    "read": ["admin", "coordinator"]
+    "read": ["admin"]
   }
 }

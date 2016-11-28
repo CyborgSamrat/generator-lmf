@@ -54,7 +54,11 @@ module.exports = function(req, res, next) {
              return false;
          }
         data = JSON.parse(data);
-        if(data.permissions[actionPermissionMap[action]].indexOf(role)>=0){
+        if(data.permissions[actionPermissionMap[action]][0] == "*")
+        {
+            return true;
+        }
+        else if(data.permissions[actionPermissionMap[action]].indexOf(role)>=0){
             return true;
         }else{
             return false;
