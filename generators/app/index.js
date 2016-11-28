@@ -91,6 +91,15 @@ module.exports = yeoman.Base.extend({
            }
          );
        })
+       var modelConfigs = ["notice.json", "user.json"];
+       modelConfigs.forEach(function(item){
+         thisRef.fs.copyTpl(
+           thisRef.templatePath('back-end/configs/models/' + item ),
+           thisRef.destinationPath('back-end/configs/models/' + item), {
+             name: thisRef.props.name
+           }
+         );
+       })
        var controllers = {
          auth: ["authenticate.js", "changePassword.js","createAccount.js", "updateProfile.js", "validateToken.js"],
          connection: ["connect.js","getConnection.js"],
