@@ -60,6 +60,8 @@ module.exports = yeoman.Base.extend({
       modify: userInputs.modify,
       read: userInputs.read
     }
+    permissions.modify.push('admin');
+    permissions.read.push('admin');
 var nodefs = require('fs');
     permissions.modify.forEach(function (role) {
       nodefs.readFile('front-end/mocks/template-config.' + role + '.json',function(err,content){
@@ -94,7 +96,10 @@ var nodefs = require('fs');
     if (!nodefs.existsSync(dir)){
       nodefs.mkdirSync(dir);
     }
-    nodefs.writeFile('back-end/configs/models/' + name +'.json',JSON.stringify(permissions),function(err){
+    var permissionObject = {
+      permissions: permissions
+    }
+    nodefs.writeFile('back-end/configs/models/' + name +'.json',JSON.stringify(permissionObject),function(err){
       if(err) throw err;
     });
     thisRef.fs.copyTpl(
@@ -137,8 +142,8 @@ var nodefs = require('fs');
          uname: name.charAt(0).toUpperCase() + name.slice(1),
          lname:name.charAt(0).toLowerCase() + name.slice(1),
          type: type,
-         canModify: JSON.stringify(permissions.modify.push('admin')),
-         canRead: JSON.stringify(permissions.read.push('admin'))
+         canModify: JSON.stringify(permissions.modify),
+         canRead: JSON.stringify(permissions.read)
        }
      );
      });

@@ -1,8 +1,8 @@
 ﻿define(['angular'], function (angular) {
 
     var <%= lname %> = angular.module('<%= lname %>').controller('<%= lname %>sController',
-        ['$scope', '$http', "$uibModal", 'dataManupulator', '<%= lname %>Service',
-            function (scope, http, $uibModal, dataManupulator, <%= lname %>Service) {
+        ['$scope', '$http', "$uibModal", 'dataManupulator','toastr', '<%= lname %>Service',
+            function (scope, http, $uibModal, dataManupulator,toastr, <%= lname %>Service) {
                 scope.loading = true;
                 scope.totalItems = 0;
                 scope.<%= lname %>s = [];
@@ -117,29 +117,13 @@
                     pageSize: 1000000
                 }
 
-
-                function getAll<%= uname %>() {
-                    dataManupulator.manupulate("getMany", getAll<%= uname %>Filter).then(function (response) {
-                        scope.<%= lname %>s = response.data.data;
-                    })
-                }
-
                 function getAll<%= uname %>() {
                     dataManupulator.manupulate("getMany", getManyFilter).then(function (response) {
                         scope.all<%= uname %>s = response.data.data;
                         scope.totalItems = response.data.totalCount;
                         scope.loading = false;
-
-                        if (angular.isArray(scope.all<%= uname %>s)) {
-                            scope.all<%= uname %>s.forEach(function (item, index) {
-                                dataManupulator.manupulate("getById", {
-                                    entityName: '<%= lname %>',
-                                    entityId: item.<%= lname %>Id
-                                }).then(function (res) {
-                                    scope.all<%= uname %>s[index].<%= lname %> = res.data.title;
-                                })
-                            })
-                        }
+                    }, function (err) {
+                      toastr.error(response.message, "Error");
                     })
                 }
 
