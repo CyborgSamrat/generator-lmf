@@ -16,6 +16,15 @@
         $httpProvider.defaults.headers.post = {};
         $httpProvider.defaults.headers.put = {};
         $httpProvider.defaults.headers.patch = {};
+      $httpProvider.interceptors.push(function($localStorage) {
+        return {
+          'request': function(config) {
+
+            config.headers['authtoken'] = $localStorage.token;
+            return config;
+          }
+        };
+      });
 
         mainApp.registerController = $controllerProvider.register;
         mainApp.$register = $provide;
@@ -165,17 +174,5 @@
           }
         });
     });
-
-    angular.module('mainApp').run(signWithToken);
-
-    signWithToken.$inject = ["$http", "$q","$location", "$localStorage" ];
-
-    function signWithToken($http,$q, $location, $localStorage ){
-
-        if ($localStorage.token) {
-            $http.defaults.headers.common['authToken'] = $localStorage.token;
-        }
-
-    }
 
 })
